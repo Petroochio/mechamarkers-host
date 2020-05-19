@@ -1,0 +1,65 @@
+{
+  "name": "mechamarkers-host",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "dist": "electron-builder --dir",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Petroochio/mechamarkers-host.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Petroochio/mechamarkers-host/issues"
+  },
+  "homepage": "https://github.com/Petroochio/mechamarkers-host#readme",
+  "dependencies": {
+    "electron": "^9.0.0",
+    "ramda": "^0.27.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "electron-builder": "^22.6.1",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "build": {
+    "appId": "mechamarkers",
+    "mac": {
+      "category": "toolkit"
+    },
+    "files": [
+      "./app.js",
+      "./index.html",
+      "build/**/*",
+      "styles/**/*"
+    ]
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "browsers": [
+              "Firefox > 50"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
