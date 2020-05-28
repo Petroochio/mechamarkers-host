@@ -12,6 +12,20 @@ html, body {
   overflow-x: hidden;
 }
 
+#temp-marker-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#temp-client-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
 #marker-image {
   display: block;
   right: 0;

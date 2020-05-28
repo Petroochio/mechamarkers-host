@@ -22,7 +22,10 @@
   "homepage": "https://github.com/Petroochio/mechamarkers-host#readme",
   "dependencies": {
     "electron": "^9.0.0",
-    "ramda": "^0.27.0"
+    "peer": "^0.5.3",
+    "peerjs": "^1.2.0",
+    "ramda": "^0.27.0",
+    "ws": "^7.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

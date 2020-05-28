@@ -1,7 +1,13 @@
+// const { PeerServer } = require('peer');
+
+// const peerServer = PeerServer({ port: 9000, path: '/mm-peer' });
+
 const { app, BrowserWindow } = require('electron');
 
 const path = require('path');
 const url = require('url');
+
+// Peerjs server
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -44,6 +50,8 @@ app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  // THIS SHOULD ALSO KILL PEERJS SERVER
+
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   app.quit();
