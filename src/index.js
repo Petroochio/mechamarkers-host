@@ -1,88 +1,72 @@
-import Peer from 'peerjs';
-import R from 'ramda';
+import xs from 'xstream';
+import { run } from '@cycle/run';
+import { makeDOMDriver, div } from '@cycle/dom';
+import { withState } from '@cycle/state';
+import * as R from 'ramda';
 
-const MESSAGE_TYPES = {
-  SET_HOST: 'SET_HOST',
-  MARKER_DATA: 'MARKER_DATA',
-  VIDEO_DATA: 'VIDEO_DATA',
-};
+// pages
+import makeConnectObserver from './pages/ConnectObserver';
+import makeMainPage from './pages/MainPage';
 
-let clientView;
-let canvas;
-let overlayCtx;
+function intent(domSource) {
+  return {
+  };
+}
 
-function drawMarkers(ctx, markers) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.lineWidth = 3;
+function model(actions, state$) {
+  return state$; // xs.combine(state$, xs.of('temp'));
+}
 
-  markers.forEach((m) => {
-    const { center, corners } = m;
+function view(model$, mainPage$, connect$) {
+  return xs.combine(model$, mainPage$, connect$).map((data) => {
+    const [state, mainPage, connect] = data;
 
-    ctx.strokeStyle = 'red';
-    ctx.beginPath();
-
-    corners.forEach((c, i) => {
-      ctx.moveTo(c.x, c.y);
-      const c2 = corners[(i + 1) % corners.length];
-      ctx.lineTo(c2.x, c2.y);
-    });
-
-    ctx.stroke();
-    ctx.closePath();
-
-    // draw first corner
-    ctx.strokeStyle = 'green';
-    ctx.strokeRect(corners[0].x - 2, corners[0].y - 2, 4, 4);
-
-    ctx.strokeStyle = 'yellow';
-    ctx.strokeRect(center.x - 2, center.y - 2, 4, 4);
+    switch (state.page) {
+      case 'MAIN':
+        return mainPage;
+      case 'CONNECT':
+        return connect;
+      default:
+        return mainPage;
+    }
   });
 }
 
-let currentPeer;
-let prevTime = 0;
+function main(sources) {
+  const { DOM, state } = sources;
+  const state$ = state.stream.debug();
 
-window.onload = () => {
-  clientView = document.querySelector('#temp-client-view');
-  canvas = document.querySelector('#temp-marker-canvas');
-  overlayCtx = canvas.getContext('2d');
+  const actions = intent(DOM);
+  const model$ = model(actions, state$);
 
-  const peer = new Peer('beholder-host', {
-    secure: true,
-    host: 'beholder-server.herokuapp.com',
-    path: '/peerapp',
-  });
-  peer.on('open', (id) => {
-    console.log(`Peer id is: ${id}`);
-  });
+  const pages = {
+    mainPage: makeMainPage(sources),
+    connectObserver: makeConnectObserver(sources),
+    observerPreview: { },
+  };
 
-  peer.on('connection', (conn) => {
-    currentPeer = conn;
-    conn.on('data', (msg) => {
-      // console.log(data);
-      conn.send('thanks');
-      let currentTime;
-      let dt;
-      // const message = JSON.parse(data);
-      // console.log('got some data', msg.type);
-      switch (msg.type) {
-        case MESSAGE_TYPES.VIDEO_DATA:
-          canvas.width = msg.data.width;
-          canvas.height = msg.data.height;
-          clientView.src = msg.data.frame;
-          break;
-        case MESSAGE_TYPES.MARKER_DATA:
-          // console.log('mark');
-          currentTime = Date.now();
-          dt = currentTime - prevTime;
-          canvas.width = 480;
-          canvas.height = 360;
-          console.log(dt / 1000);
-          prevTime = currentTime;
-          drawMarkers(overlayCtx, msg.data);
-          break;
-        default: break;
-      }
-    });
-  });
+  const vdom$ = view(model$, pages.mainPage.DOM, pages.connectObserver.DOM);
+
+  // Initial state
+  const initReducer$ = xs.of(() => ({
+    observers: [],
+    page: 'MAIN',
+    focusedObserver: 0,
+    addID: 0,
+  }));
+
+  const reducer$ = xs.merge(initReducer$, pages.mainPage.state);
+
+  return {
+    DOM: vdom$,
+    state: reducer$,
+  };
+}
+
+const drivers = {
+  DOM: makeDOMDriver('#app'),
 };
+
+const wrappedMain = withState(main);
+
+run(wrappedMain, drivers);

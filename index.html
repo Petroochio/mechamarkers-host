@@ -8,77 +8,34 @@
   </head>
 
   <body>
+    <div id="app"></div>
     <!-- <div id="loading_screen">
       <div id="black_square"></div>
       <div id="loading_text">Loading Mechamarkers App</div>
     </div> -->
     <!-- <img id="marker-image"></img> -->
-    <canvas id="temp-marker-canvas"></canvas>
+    <!-- <canvas id="temp-marker-canvas"></canvas>
     <img id="temp-client-view"></img>
+    <div id="parametersMenu">
+      <div class="parameterItem">
+        <span>Min Marker Distance</span>
+        <input type="number" name="MIN_MARKER_DISTANCE" min="1" max="50" value="10" step="1">
+      </div>
 
-    <script>
-      // const image = document.querySelector('#marker-image');
-      // function init() {
-      //   document.querySelector('#loading_screen').classList.add('hidden');
-      //   document.querySelector('#parametersMenu').classList.remove('hidden');
-      //   websocket.send(JSON.stringify({ type: 'get camera params' }));
-      //   websocket.send(JSON.stringify({ type: 'send video' }));
-      //   hasVideo = true;
+      <div class="parameterItem">
+        <span>Min Marker Perimeter</span>
+        <input type="number" name="MIN_MARKER_PERIMETER" min="0.01" max="0.99" value="0.2" step="0.01">
+      </div>
 
-      //   document.querySelector('#toggle-vid').addEventListener('click', () => {
-      //     hasVideo = !hasVideo;
-      //     if (hasVideo) websocket.send(JSON.stringify({ type: 'send video'}));
-      //     else websocket.send(JSON.stringify({ type: 'stop video'}));
-      //   });
+      <div class="parameterItem">
+        <span>Max Marker Perimeter</span>
+        <input type="number" name="MAX_MARKER_PERIMETER" min="0.01" max="0.99" value="0.8" step="0.01">
+      </div>
 
-      //   const sendParam = (e) => {
-      //     let val = e.target.value;
-      //     if (e.target.type === 'checkbox') val = e.target.checked;
-      //     websocket.send(
-      //       JSON.stringify({ type: 'set camera param', name: e.target.name, value: val })
-      //     );
-      //   };
-
-      //   const params = document.querySelectorAll('.parameterItem');
-      //   for(let i = 0; i < params.length; i++) {
-      //     params[i].addEventListener('change', sendParam);
-      //   }
-      // }
-      // // require js for things here
-      // let websocket;
-      // let hasVideo = true;
-      // let isConnected = false;
-
-      // function initConnection() {
-      //   websocket = new WebSocket("ws://127.0.0.1:5000/");
-
-      //   websocket.onmessage = (event) => {
-      //   const data = JSON.parse(event.data);
-      //   switch (data.type) {
-      //     case 'video':
-      //       image.src = 'data:image/png;base64,' + data.pixels;
-      //       break;
-      //     case 'camera params':
-      //       const params = JSON.parse(data.params);
-      //       Object.keys(params).forEach(key => {
-      //         if (key === 'flip camera') document.querySelector(`input[name="${key}"]`).checked = params[key];
-      //         else document.querySelector(`input[name="${key}"]`).value = params[key];
-      //       });
-      //       break;
-      //     // This is sent once when connection is formed
-      //     case 'connected':
-      //       isConnected = true;
-      //       init();
-      //       break;
-      //     }
-      //   };
-
-      //   setTimeout(() => {
-      //     if (!isConnected) initConnection();
-      //   }, 1000);
-      // }
-
-      // setTimeout(initConnection, 1000);
-    </script>
+      <div class="parameterItem">
+        <span>Size After Perspective Removal</span>
+        <input type="number" name="SIZE_AFTER_PERSPECTIVE_REMOVAL" min="1" max="200" value="49" step="1">
+      </div> -->
+    </div>
   </body>
 </html>

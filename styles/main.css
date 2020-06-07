@@ -36,7 +36,7 @@ html, body {
 
 #parametersMenu {
   position: relative;
-  float: left;
+  float: right;
   margin: 2em;
   z-index: 5;
 }
