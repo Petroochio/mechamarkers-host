@@ -34,12 +34,13 @@ function MainPage(sources) {
   const actions = intent(DOM);
   const childrenDom$ = addObserverSinks.DOM.map((vdom) => [vdom]);
 
-  const vdom$ = view(sources.state.stream, childrenDom$);
+  const vdom$ = view(sources.store.stream, childrenDom$);
 
   // sinks
   return {
     DOM: vdom$,
-    state: addObserverSinks.click.map(addObserverReducer),
+    store: addObserverSinks.click.map(addObserverReducer),
+    canvas: xs.empty(),
   };
 }
 

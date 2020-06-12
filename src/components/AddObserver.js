@@ -1,7 +1,6 @@
 import xs from 'xstream';
 import { button } from '@cycle/dom';
 
-
 function intent(domSource) {
   return {
     click$: domSource.select('#add-observer')

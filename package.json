@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Petroochio/mechamarkers-host#readme",
   "dependencies": {
     "@cycle/dom": "^22.7.0",
+    "@cycle/isolate": "^5.2.0",
     "@cycle/run": "^5.4.0",
     "@cycle/state": "^1.4.0",
     "electron": "^9.0.0",
