@@ -9,11 +9,9 @@ export function drawCommand(target, renderFunc) {
   };
 }
 
-export function clearListCommand(target, renderFunc) {
+export function clearListCommand() {
   return {
-    target,
     type: 'CLEAR_CANVAS_LIST',
-    render: renderFunc,
   };
 }
 
@@ -30,12 +28,17 @@ export function makeCanvasDriver() {
             break;
           case 'DRAW':
             if (!ctxList[command.target]) {
-              ctxList[command.target] = {};
-              ctxList[command.target].canvas = document.querySelector(command.target);
-              ctxList[command.target].ctx = ctxList[command.target].canvas.getContext('2d');
+              if (document.querySelector(command.target)) {
+                ctxList[command.target] = {};
+                ctxList[command.target].canvas = document.querySelector(command.target);
+                ctxList[command.target].ctx = ctxList[command.target].canvas.getContext('2d');
+              } else {
+                // Bail when I can't find the canvas
+                return;
+              }
             }
 
-            command.render(ctxList[command.target].ctx);
+            command.render(ctxList[command.target].ctx, ctxList[command.target].canvas);
             break;
           default:
             console.warn('Unable to parse render command: ', command);

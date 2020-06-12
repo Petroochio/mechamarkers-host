@@ -48,7 +48,7 @@ function createObserver(observerID) {
 
 function main(sources) {
   const { DOM, store, beholder } = sources;
-  const store$ = store.stream.debug();
+  const store$ = store.stream;
 
   const actions = intent(DOM);
   const state$ = model(actions, store$);
@@ -87,7 +87,7 @@ function main(sources) {
       // Apparently state streams only update when a new reference is passed
     });
 
-  const markerReducer$ = beholder.select(MESSAGE_TYPES.MARKER_DATA).debug()
+  const markerReducer$ = beholder.select(MESSAGE_TYPES.MARKER_DATA)
     .map(({ markers, observerID }) => (state) => {
       state.observers[observerID].markers = [...markers];
       return { ...state };
@@ -98,13 +98,15 @@ function main(sources) {
     hostIDReducer$,
     observerConnectReducer$,
     markerReducer$,
-    pages.mainPage.store
+    pages.mainPage.store,
+    pages.observerDetail.store,
   );
 
   return {
     DOM: vdom$,
-    canvas: xs.empty(), // xs.merge(pages.mainPage.canvas, pages.connectObserver.canvas),
-    beholder: xs.empty(),
+    canvas: xs.merge(pages.mainPage.canvas, pages.observerDetail.canvas),
+    // xs.merge(pages.mainPage.canvas, pages.connectObserver.canvas),
+    beholder: pages.observerDetail.beholder,
     store: reducer$,
   };
 }
