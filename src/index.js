@@ -1,8 +1,9 @@
+import * as R from 'ramda';
 import xs from 'xstream';
+import sampleCombine from 'xstream/extra/sampleCombine';
 import { run } from '@cycle/run';
 import { makeDOMDriver, div } from '@cycle/dom';
 import { withState } from '@cycle/state';
-import * as R from 'ramda';
 
 // Driver
 import { makeCanvasDriver } from './drivers/Canvas';
@@ -12,7 +13,6 @@ import { makeBeholderServerDriver, MESSAGE_TYPES } from './drivers/BeholderServe
 import makeConnectObserver from './pages/ConnectObserver';
 import makeMainPage from './pages/MainPage';
 import makeObserverDetail from './pages/ObserverDetail';
-import sampleCombine from 'xstream/extra/sampleCombine';
 
 function intent(domSource) {
   return {

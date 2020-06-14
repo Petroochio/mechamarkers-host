@@ -85,11 +85,10 @@ function MainPage(sources) {
 
   // observer canvases. state$.map(xs.of()).flatten()
   const previewDraw$ = store.stream // .compose(throttle(500))
-    .filter(R.pipe(R.prop('page'), R.equals('MAIN'))).debug()
+    .filter(R.pipe(R.prop('page'), R.equals('MAIN')))
     .map(R.prop('observers'))
     .map(drawAllObservers)
     .map((o) => xs.fromArray(o))
-    // .debug()
     .flatten();
 
   const clearCanvas$ = xs.merge(actions.previewClick$, addObserverSinks.click)
