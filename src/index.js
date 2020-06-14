@@ -12,6 +12,7 @@ import { makeBeholderServerDriver, MESSAGE_TYPES } from './drivers/BeholderServe
 import makeConnectObserver from './pages/ConnectObserver';
 import makeMainPage from './pages/MainPage';
 import makeObserverDetail from './pages/ObserverDetail';
+import sampleCombine from 'xstream/extra/sampleCombine';
 
 function intent(domSource) {
   return {
@@ -88,6 +89,9 @@ function main(sources) {
     });
 
   const markerReducer$ = beholder.select(MESSAGE_TYPES.MARKER_DATA)
+    .compose(sampleCombine(store$))
+    .filter(([_, state]) => (state.page !== 'CONNECT'))
+    .map(R.head)
     .map(({ markers, observerID }) => (state) => {
       state.observers[observerID].markers = [...markers];
       return { ...state };

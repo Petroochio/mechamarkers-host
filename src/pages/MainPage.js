@@ -85,7 +85,7 @@ function MainPage(sources) {
 
   // observer canvases. state$.map(xs.of()).flatten()
   const previewDraw$ = store.stream // .compose(throttle(500))
-    .filter(R.pipe(R.prop('page'), R.equals('MAIN')))
+    .filter(R.pipe(R.prop('page'), R.equals('MAIN'))).debug()
     .map(R.prop('observers'))
     .map(drawAllObservers)
     .map((o) => xs.fromArray(o))
