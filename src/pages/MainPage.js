@@ -22,12 +22,11 @@ function addObserverReducer() {
 }
 
 function renderObserver(o) {
-  const fps = 1 / (o.currentUpdate - o.lastUpdate) * 1000;
   return div(
     '.observer-tile',
     [
       canvas(`#c-${o.id}.preview-canvas`, { attrs: { width: 150, height: 150 } }),
-      p('.observer-tile-framerate', `FPS: ${Math.floor(fps)}`),
+      p('.observer-tile-framerate', `FPS: ${Math.floor(o.fps)}`),
     ]
   );
 }

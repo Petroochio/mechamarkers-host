@@ -46,6 +46,7 @@ function createObserver(observerID) {
     markers: [],
     lastUpdate: 0,
     currentUpdate: Date.now(),
+    fps: 0,
   };
 }
 
@@ -95,9 +96,11 @@ function main(sources) {
     .filter(([_, state]) => (state.page !== 'CONNECT'))
     .map(R.head)
     .map(({ markers, observerID }) => (state) => {
-      state.observers[observerID].markers = [...markers];
-      state.observers[observerID].lastUpdate = state.observers[observerID].currentUpdate;
-      state.observers[observerID].currentUpdate = Date.now();
+      const o = state.observers[observerID];
+      o.markers = [...markers];
+      o.lastUpdate = o.currentUpdate;
+      o.currentUpdate = Date.now();
+      o.fps = (o.fps + (1 / (o.currentUpdate - o.lastUpdate) * 1000)) / 2;
       return { ...state };
     });
 
