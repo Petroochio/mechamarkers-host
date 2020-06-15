@@ -1,7 +1,7 @@
 import xs from 'xstream';
 import throttle from 'xstream/extra/throttle'
 import * as R from 'ramda';
-import { div, canvas } from '@cycle/dom';
+import { div, canvas, p } from '@cycle/dom';
 
 
 // Components
@@ -22,7 +22,14 @@ function addObserverReducer() {
 }
 
 function renderObserver(o) {
-  return canvas(`#c-${o.id}.preview-canvas`, { attrs: { width: 150, height: 150 } });
+  const fps = 1 / (o.currentUpdate - o.lastUpdate) * 1000;
+  return div(
+    '.observer-tile',
+    [
+      canvas(`#c-${o.id}.preview-canvas`, { attrs: { width: 150, height: 150 } }),
+      p('.observer-tile-framerate', `FPS: ${Math.floor(fps)}`),
+    ]
+  );
 }
 
 function render(sources) {

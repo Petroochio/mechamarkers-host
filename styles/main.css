@@ -16,6 +16,20 @@ html, body {
   margin: 10px;
 }
 
+.observer-tile {
+  position: relative;
+  display: inline-block;
+}
+
+.observer-tile-framerate {
+  background-color: black;
+  color: white;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 #marker-image {
   display: block;
   right: 0;
