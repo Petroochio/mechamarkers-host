@@ -30,7 +30,7 @@
     "peerjs": "^1.2.0",
     "qrcode": "^1.4.4",
     "ramda": "^0.27.0",
-    "ws": "^7.3.0",
+    "ws": "^7.4.6",
     "xstream": "^11.12.0"
   },
   "devDependencies": {
